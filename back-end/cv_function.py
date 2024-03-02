@@ -223,6 +223,12 @@ def read_image(img_path):
     image_data = image_data[np.newaxis, ...].astype(np.float32)
     return image_data, original_image
 
+def receive_image(img):
+    original_image = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    image_data = image_preprocess(np.copy(original_image), [input_size, input_size])
+    image_data = image_data[np.newaxis, ...].astype(np.float32)
+    return image_data, original_image
+
 def run_obj_detect_model(image_data):
     sess = rt.InferenceSession(model_path)
     outputs = sess.get_outputs()
@@ -253,9 +259,11 @@ def indicate_item_name(bboxes, classes=read_class_names(class_name_path)):
 ANCHORS = get_anchors(ANCHORS)
 STRIDES = np.array(STRIDES)
 
-def wimp_it(return_img = False):
-
-    image_data, original_image = read_image(img_path=input_img_path)
+def wimp_it(img, read_img_path=False, return_img=False):
+    if read_img_path:
+        image_data, original_image = read_image(img_path=input_img_path)
+    else:
+        image_data, original_image = receive_image(img=img)
     detections = run_obj_detect_model(image_data=image_data)
     bboxes = process_obj_classify(detections=detections, original_image_size=original_image.shape[:2])
 
