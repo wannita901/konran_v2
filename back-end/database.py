@@ -26,7 +26,7 @@ class ExpiryDate(db.Model):
     days_til_expiry: Mapped[int] = mapped_column(Integer)
 
 def add_items_from_expiry(filepath="expiry.csv"):
-    with open(filepath, 'r') as file:
+    with open(filepath, 'r', encoding='utf-8-sig') as file:
         csv_reader = csv.reader(file)
 
         for row in csv_reader:
