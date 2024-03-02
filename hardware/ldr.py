@@ -1,10 +1,25 @@
-import RPi.GPIO as GPIO
+import pyfirmata
+import time
+from camera import capture_and_send_image
 
-#set GPIO numbering
-GPIO.setmode(GPIO.BCM)
+def ldr():
+    
+    board = pyfirmata.Arduino('COM6') #change to whatever port you are connected to --> needs to check with Arduino IDE
 
-#set input at GPIO4
-GPIO.setup(4, GPIO.IN)
+    it = pyfirmata.util.Iterator(board)
+    it.start()
 
-for i in range(0,5):
-    print GPIO.input(4)
+    ldr = board.analog[0]
+    ldr.enable_reporting()
+
+    while True:
+        light = ldr.read()
+
+        if light == None:
+            light = 0.0
+
+        if light >= 0.5:
+            capture_and_send_image()
+            exit()
+        
+        time.sleep(1)
