@@ -10,4 +10,4 @@ yolov4: [download here](https://github.com/onnx/models/blob/main/validated/visio
 
 Flask on EC2
 
-thanks to this [link1](https://aws.plainenglish.io/deploying-a-flask-application-on-ec2-54cfeb396fa1x) and [link2](https://stackoverflow.com/questions/41951792/gunicorn-and-django-error-permission-denied-for-sock/41952296#41952296)
+thanks to this [link1](https://github.com/yeshwanthlm/YouTube/blob/main/flask-on-aws-ec2.md) and [link2](https://stackoverflow.com/questions/41951792/gunicorn-and-django-error-permission-denied-for-sock/41952296#41952296)
