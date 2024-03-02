@@ -5,6 +5,7 @@ import random
 import base64
 import numpy as np
 import cv2
+from apscheduler.schedulers.background import BackgroundScheduler
 
 date_list = [datetime(2024, 3, 2), datetime(2024, 3, 1), datetime(2024, 3, 3)]
 name_list = ["apple", "banana"]
@@ -102,6 +103,8 @@ def process_found_items(found_items):
     db.session.commit()
     #########################
 
+
+### ROUTES ###
 @app.route('/get_user_items')
 def get_user_items():
     '''
@@ -129,14 +132,36 @@ def detect_image():
     process_found_items(found_items)
     return ""
 
+
 @app.route("/test")
 def test():
     found_items = ["cake", "apple", "banana"]
     process_found_items(found_items)
     return ""
 
+### SCHEDULER ###
+def alert_user(dt):
+    items = Item.query.all()
 
+    items_to_alert = []
+    for item in items:
+        difference = item.expiry_date - datetime.now()
+        if difference.days <= 3:
+            items_to_alert.add([item, difference.days])
 
+    items_to_alert.sort(key=lambda item:item[1])
+
+    subject = "W.I.M.P Alert: Your groceries are about to expire!"
+    message = "The following groceries in your pantry are about to expire: \n\n"
+    if len(items_to_alert) > 0:
+        for item in items_to_alert:
+            message += 
+
+        pass
+
+scheduler = BackgroundScheduler()
+scheduler.add_job(alert_user, 'cron', hour=0)
+scheduler.start()
 
 
 
@@ -170,4 +195,4 @@ def dates():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, use_reloader=False)
