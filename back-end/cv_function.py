@@ -20,6 +20,8 @@ input_size=416
 ANCHORS = "./model/yolov4_anchors.txt"
 STRIDES = [8, 16, 32]
 XYSCALE = [1.2, 1.1, 1.05]
+FILTERED_ITEMS = ['banana', 'apple', 'sandwich', 'orange', 'brocolli', 'carrot', 'hot dog', 'pizza', 'donut', 'cake', 'bottle']
+
 ################
 
 ######## handler #########
@@ -261,7 +263,7 @@ STRIDES = np.array(STRIDES)
 
 def wimp_it(img, read_img_path=False, return_img=False):
     if read_img_path:
-        image_data, original_image = read_image(img_path=input_img_path)
+        image_data, original_image = read_image(img_path=img)
     else:
         image_data, original_image = receive_image(img=img)
     detections = run_obj_detect_model(image_data=image_data)
@@ -269,6 +271,7 @@ def wimp_it(img, read_img_path=False, return_img=False):
 
     # for back-end
     item_set = indicate_item_name(bboxes=bboxes)
+    item_set = [item for item in item_set if item in FILTERED_ITEMS]
     print(item_set)
 
     # for front-end
@@ -281,4 +284,4 @@ def wimp_it(img, read_img_path=False, return_img=False):
     return item_set
 
 # ## to use 
-# item_set = wimp_it()
+item_set = wimp_it(img=input_img_path, read_img_path=True)
