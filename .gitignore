@@ -1,4 +1,5 @@
 yolov4.onnx
+reductive_api_key.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
