@@ -1,25 +1,25 @@
 import pyfirmata
 import time
 from camera import capture_and_send_image
-
-def ldr():
     
-    board = pyfirmata.Arduino('COM6') #change to whatever port you are connected to --> needs to check with Arduino IDE
+#board = pyfirmata.Arduino('COM6') #change to whatever port you are connected --> windows and mac
+board = pyfirmata.Arduino('/dev/ttyACM0') #change to whatever port you are connected --> RPi (using this for demo)
 
-    it = pyfirmata.util.Iterator(board)
-    it.start()
+it = pyfirmata.util.Iterator(board)
+it.start()
 
-    ldr = board.analog[0]
-    ldr.enable_reporting()
+ldr = board.analog[0]
+ldr.enable_reporting()
 
-    while True:
-        light = ldr.read()
+while True:
+    light = ldr.read()
 
-        if light == None:
-            light = 0.0
+    if light == None:
+        light = 0.0
 
-        if light >= 0.5:
-            capture_and_send_image()
-            exit()
-        
-        time.sleep(1)
+    if light >= 0.5:
+        capture_and_send_image()
+        exit()
+    
+    time.sleep(1)
+    
