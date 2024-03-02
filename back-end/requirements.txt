@@ -1,5 +1,5 @@
 apscheduler
 flask
 flask-sqlalchemy
-cv2
+opencv-python
 requests
