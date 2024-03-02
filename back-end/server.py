@@ -1,11 +1,12 @@
 from flask import Flask, request
 from database import *
 from datetime import datetime, timedelta
-import random
 import base64
 import numpy as np
 import cv2
 from apscheduler.schedulers.background import BackgroundScheduler
+
+from send_email import send_email
 
 date_list = [datetime(2024, 3, 2), datetime(2024, 3, 1), datetime(2024, 3, 3)]
 name_list = ["apple", "banana"]
@@ -103,6 +104,32 @@ def process_found_items(found_items):
     db.session.commit()
     #########################
 
+def alert_user():
+    with app.app_context():
+        items = db.session.execute(db.select(Item)).scalars()
+
+        items_to_alert = []
+        for item in items:
+            difference = item.expiry_date.date() - datetime.now().date()
+            if difference.days <= 3:
+                items_to_alert.append([item, difference.days])
+
+        items_to_alert.sort(key=lambda item:item[1])
+
+        subject = "W.I.M.P Alert: Your groceries are about to expire!"
+        message = "The following groceries in your pantry are about to expire.\n\n"
+        item_count = 1
+        if len(items_to_alert) > 0:
+            for item, days_til_expiry in items_to_alert:
+                expiry_date = item.expiry_date.strftime("%d/%m/%y")
+                message += f"{item_count}. {item.name}: expires {expiry_date} [{days_til_expiry} day(s)]\n"
+                item_count += 1
+            
+            message += "\n Make sure you use them before they go to waste!\n"
+            message += "\n - Konran W.I.M.P Team"
+            send_email(subject=subject, message=message)
+            print("Sent email!")
+
 
 ### ROUTES ###
 @app.route('/get_user_items')
@@ -140,25 +167,6 @@ def test():
     return ""
 
 ### SCHEDULER ###
-def alert_user(dt):
-    items = Item.query.all()
-
-    items_to_alert = []
-    for item in items:
-        difference = item.expiry_date - datetime.now()
-        if difference.days <= 3:
-            items_to_alert.add([item, difference.days])
-
-    items_to_alert.sort(key=lambda item:item[1])
-
-    subject = "W.I.M.P Alert: Your groceries are about to expire!"
-    message = "The following groceries in your pantry are about to expire: \n\n"
-    if len(items_to_alert) > 0:
-        for item in items_to_alert:
-            message += 
-
-        pass
-
 scheduler = BackgroundScheduler()
 scheduler.add_job(alert_user, 'cron', hour=0)
 scheduler.start()
@@ -167,16 +175,6 @@ scheduler.start()
 
 
 ######################
-@app.route('/')
-def hello_world():
-    item = Item(
-        name=random.choice(name_list),
-        expiry_date = random.choice(date_list)
-    )
-    db.session.add(item)
-    db.session.commit()
-    return item.name + " added!"
-
 @app.route('/check')
 def check_all():
     items = db.session.execute(db.select(Item)).scalars()

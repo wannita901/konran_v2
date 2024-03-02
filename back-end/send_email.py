@@ -12,7 +12,7 @@ sender_email = data.get('email')
 sender_password = data.get('password')
 
 
-def send_email(recipient_email="bteo0002@student.monash.edu", subject= "Test Subject", message="This is an automated message.\nSent from Python."):
+def send_email(recipient_email="taylorramnarong@gmail.com", subject= "Test Subject", message="This is an automated message.\nSent from Python."):
     smtpserver = smtplib.SMTP_SSL('smtp.gmail.com', 465)
     smtpserver.ehlo()
     smtpserver.login(sender_email, sender_password)
@@ -26,4 +26,5 @@ def send_email(recipient_email="bteo0002@student.monash.edu", subject= "Test Sub
     # Close the connection
     smtpserver.close()
 
-send_email(recipient_email="taylorramnarong@gmail.com")
+if __name__ == "__main__":
+    send_email(recipient_email="test@gmail.com")
