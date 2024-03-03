@@ -177,17 +177,6 @@ def get_image():
     return Response(image_bytes, mimetype="image/jpeg")
     #return send_file('data/output_images/detected_fridge.jpg')
 
-
-
-@app.route("/get_image")
-def get_image():
-    image = cv2.imread("data/output_images/detected_fridge.jpg")
-    ret, jpg = cv2.imencode(".jpg", image)
-
-    image_bytes = jpg.tobytes()
-
-    return Response(image_bytes, mimetype="image/jpeg")
-
 ### SCHEDULER ###
 scheduler = BackgroundScheduler()
 scheduler.add_job(alert_user, 'cron', hour=0)
