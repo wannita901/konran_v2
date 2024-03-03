@@ -5,6 +5,7 @@ import base64
 import numpy as np
 import cv2
 from apscheduler.schedulers.background import BackgroundScheduler
+from flask_cors import CORS, cross_origin
 
 from send_email import send_email
 
@@ -133,6 +134,7 @@ def alert_user():
 
 ### ROUTES ###
 @app.route('/get_user_items')
+@cross_origin()
 def get_user_items():
     '''
     Returns a list of objects, where each object has keys "name" and "expiry_date".
@@ -147,6 +149,11 @@ def get_user_items():
         items_list.append({"name": item.name, "expiry_date": item.expiry_date.strftime("%d/%m/%Y")})
 
     return items_list
+
+@app.route("/testing", methods=['GET'])
+@cross_origin()
+def testing():
+    return {"members": ["Member1", "Member2", "Member3"]}
 
 @app.route("/detect_image", methods=["POST"])
 def detect_image():
@@ -193,4 +200,5 @@ def dates():
 
 
 if __name__ == '__main__':
+    CORS(app)
     app.run(debug=True, use_reloader=False)

@@ -1,19 +1,14 @@
 // import React from 'react';
 // import logo from './logo.svg';
-import React , { useState } from 'react';
+import React , { useState, useEffect } from 'react';
 import './App.css';
 import './index.css';
 
 // MUI
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import ListItemText from '@mui/material/ListItemText';
 import Avatar from '@mui/material/Avatar';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 
@@ -37,6 +32,8 @@ function PlaceHolderIcon() {
     <Avatar alt = "Garfield" src = { Garfield } />
   )
 }
+
+// Template Styles
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
@@ -65,43 +62,42 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
+interface FoodItem {
+  name: String
+  expiry_date: String
+}
+
+
 export default function App() {
 
-  const [foods, setFoods] = useState([
-    { id: 1, name: "Banana", expiry_date: "05/03/2024"},
-    { id: 2, name: "Apple", expiry_date: "07/03/2024"},
-    { id: 3, name: "Orange", expiry_date: "08/03/2024"}
-  ]);
-
-  function renderList() {
-    return foods.map(el => {
-      return (
-        <ListItem>
-          <ListItemAvatar>
-            {/* if statement to see if placeholder exists */}
-            <PlaceHolderIcon /> 
-          </ListItemAvatar>
-          <ListItemText
-            primary= {el.name}
-            secondary= {el.expiry_date}
-          />
-        </ListItem>
-      )
-    })
-  }
+  const [foods, setFood] = useState([])
+  let FoodList : { string: FoodItem[] }
+  
+  useEffect(() => {
+    fetch("http://127.0.0.1:5000/get_user_items").then(
+      res => res.json()
+    ).then(
+      food => {
+        console.log(food)
+        setFood(food)
+      }
+    )
+    
+  }, [])
 
   function renderTable() {
-    return foods.map(ele => {
+    return foods.map((ele, index) => {
       return (
-        <StyledTableRow key = {ele.id}>
+        <StyledTableRow key = {index}>
           <StyledTableCell component="th" scope="row">
-            {ele.name}
+            {ele["name"]}
           </StyledTableCell>
-          <StyledTableCell>{ele.expiry_date}</StyledTableCell>
+          <StyledTableCell>{ele["expiry_date"]}</StyledTableCell>
         </StyledTableRow>
       )
-    })
+    })  
   }
+
 
   return (
     <React.Fragment>
@@ -126,6 +122,7 @@ export default function App() {
               </TableHead>
               <TableBody>
                 { renderTable() }
+
               </TableBody>
             </Table>
 
