@@ -21,8 +21,7 @@ def capture_and_send_image():
     cap.release()
 
     # Send image data to backend
-    url = 'http://ec2-3-106-231-109.ap-southeast-2.compute.amazonaws.com:5000/detect_image'  # Replace with the actual backend server IP address
-    # url = "http://localhost:5000/detect_image"
+    url = 'http://ec2-3-106-231-109.ap-southeast-2.compute.amazonaws.com:5000/detect_image'  # Backend server IP address
     payload = {'image': image_data.decode('utf-8')}
     headers = requests.utils.default_headers()
     headers.update(
@@ -39,7 +38,10 @@ def capture_and_send_image():
         print('Image uploaded successfully')
     else:
         print('Failed to upload image')
-
+        
+    # Release the webcam
+    cap.release()
+    return
 
 # Capture and send image when the script is executed
 capture_and_send_image()
