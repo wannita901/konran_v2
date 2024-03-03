@@ -21,6 +21,7 @@ import TableRow from '@mui/material/TableRow';
 
 // temporary
 import FridgeImage from './assets/fridge.png';
+import { AppBar, Toolbar, Typography } from '@mui/material';
 
 
 // Template Styles
@@ -110,6 +111,22 @@ export default function App() {
   return (
     <React.Fragment>
       <CssBaseline />
+
+        {/* <AppBar position="static">
+          <Toolbar>
+            <Box sx={{ flexGrow: 0}}>
+            <Typography variant="h6" color="inherit" textAlign='center'>
+              W.I.M.P
+            </Typography>
+            </Box>
+            
+          </Toolbar>
+        </AppBar> */}
+        <center>
+          <h1>
+            W.I.M.P
+          </h1>
+        </center>
 
         {/* <Container maxWidth="sm">
         </Container> */}
