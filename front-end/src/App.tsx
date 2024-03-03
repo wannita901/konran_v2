@@ -64,7 +64,8 @@ export default function App() {
   let FoodList : { string: FoodItem[] }
   
   useEffect(() => {
-    fetch("http://ec2-13-236-116-118.ap-southeast-2.compute.amazonaws.com:5000/get_user_items").then(
+    fetch("http://ec2-3-106-231-109.ap-southeast-2.compute.amazonaws.com:5000/get_user_items").then(
+    // fetch("127.0.0.1:5000/get_user_items").then(
       res => res.json()
     ).then(
       food => {
@@ -97,7 +98,9 @@ export default function App() {
     // img?.setAttribute('src', queryImage)
     return (
       <img
-      src = { "https://fastly.picsum.photos/id/314/200/300.jpg?hmac=JrR8RW6cKgMfQOxlavDFHrFShwcnB_nuYpi1FWAzsgU" }
+      // src = { "http://ec2-13-236-116-118.ap-southeast-2.compute.amazonaws.com:5000/get_image" }
+      src = { "http://ec2-3-106-231-109.ap-southeast-2.compute.amazonaws.com:5000/get_image" }
+      // src = { "http://127.0.0.1:5000/get_image" }
       style = {{ maxWidth: "100%" }}
       />
     )
