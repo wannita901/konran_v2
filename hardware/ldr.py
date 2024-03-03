@@ -14,6 +14,7 @@ ldr = board.analog[0]
 ldr.enable_reporting()
 
 while True:
+    
     # read LDR sensor
     light = ldr.read()
 
@@ -24,7 +25,6 @@ while True:
     # if light detected, trigger camera function
     if light >= 0.5:
         capture_and_send_image()
-        time.sleep(299) # wait 5 minutes (299 + 1 seconds = 5 minutes)
     
-    time.sleep(1) # run loop every second
+    time.sleep(3) #wait 3 seconds
     
