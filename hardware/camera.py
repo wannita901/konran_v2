@@ -43,5 +43,5 @@ def capture_and_send_image():
     cap.release()
     return
 
-# test Capture and send image when the script is executed
+# Capture and send image when the script is executed
 capture_and_send_image()
