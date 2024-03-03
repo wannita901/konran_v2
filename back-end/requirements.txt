@@ -3,3 +3,8 @@ flask
 flask-sqlalchemy
 opencv-python
 requests
+onnx
+Pillow
+matplotlib
+onnxruntime
+scipy
