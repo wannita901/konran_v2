@@ -8,3 +8,4 @@ Pillow
 matplotlib
 onnxruntime
 scipy
+flask_cors
