@@ -20,7 +20,7 @@ input_size=416
 ANCHORS = "./model/yolov4_anchors.txt"
 STRIDES = [8, 16, 32]
 XYSCALE = [1.2, 1.1, 1.05]
-FILTERED_ITEMS = ['banana', 'apple', 'sandwich', 'orange', 'brocolli', 'carrot', 'hot dog', 'pizza', 'donut', 'cake', 'bottle']
+FILTERED_ITEMS = ['banana', 'apple', 'sandwich', 'orange', 'broccoli', 'carrot', 'hot dog', 'pizza', 'donut', 'cake', 'bottle']
 
 ################
 
@@ -272,7 +272,6 @@ def wimp_it(img, read_img_path=False, return_img=False):
     # for back-end
     item_set = indicate_item_name(bboxes=bboxes)
     item_set = [item for item in item_set if item in FILTERED_ITEMS]
-    print(item_set)
 
     # for front-end
     image = draw_bbox(original_image, bboxes)
@@ -284,4 +283,4 @@ def wimp_it(img, read_img_path=False, return_img=False):
     return item_set
 
 # ## to use 
-item_set = wimp_it(img=input_img_path, read_img_path=True)
+#item_set = wimp_it(img=input_img_path, read_img_path=True)

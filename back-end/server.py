@@ -8,6 +8,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from flask_cors import CORS, cross_origin
 
 from send_email import send_email
+import cv_function
 
 date_list = [datetime(2024, 3, 2), datetime(2024, 3, 1), datetime(2024, 3, 3)]
 name_list = ["apple", "banana"]
@@ -28,16 +29,10 @@ def decode_image(encoding):
 
 def detect_objects(image):
 
-    # Pass image to model
-    
-    # Get model output.
+    # Pass image to model, get the output as a list of items.
+    output = cv_function.wimp_it(image)
 
-    # Convert model output into a list of items.
-
-    # Check with database and add new items.
-
-    pass
-
+    return output
 def process_found_items(found_items):
     '''
     Input: found_items in the format ["item1_name", "item2_name",...]
@@ -96,7 +91,12 @@ def process_found_items(found_items):
         name = item_name
 
         # Calculate the expiry date by adding the shelf life to current date.
-        expiry_date = current_date + timedelta(days=expiry_dates_dct[name])
+
+        if name in expiry_dates_dct:
+            expiry_date = current_date + timedelta(days=expiry_dates_dct[name])
+        else:
+            expiry_date = current_date + timedelta(days=7)
+
         items_to_add.append(Item(name=name, expiry_date=expiry_date))
 
     for item in items_to_add:
@@ -146,7 +146,7 @@ def get_user_items():
     items_list = []
 
     for item in items:
-        items_list.append({"name": item.name, "expiry_date": item.expiry_date.strftime("%d/%m/%Y")})
+        items_list.append({"id": item.id, "name": item.name, "expiry_date": item.expiry_date.strftime("%d/%m/%Y")})
 
     return items_list
 
