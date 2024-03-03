@@ -4,7 +4,7 @@ Have you ever looked at your pantry and realised that some of your produce has e
 
 Our team wanted to tackle the problem of food wastage that hits close to home. We often find ourselves throwing out our groceries after we have forgotten to use them. To counter this issue, we developed a web application that detects items in your pantry and keeps track of their expiration dates.
 
-W.I.M.P. (It actually works full loop with the hardward!): http://ec2-3-106-231-109.ap-southeast-2.compute.amazonaws.com:3000
+**W.I.M.P. (It actually works full loop with the hardward!):** http://ec2-3-106-231-109.ap-southeast-2.compute.amazonaws.com:3000
 
 ## Set Up
 
