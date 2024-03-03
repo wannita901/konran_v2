@@ -179,11 +179,14 @@ def get_image():
 
 
 
-@app.route("/test")
-def test():
-    found_items = ["cake", "apple", "banana"]
-    process_found_items(found_items)
-    return ""
+@app.route("/get_image")
+def get_image():
+    image = cv2.imread("data/output_images/detected_fridge.jpg")
+    ret, jpg = cv2.imencode(".jpg", image)
+
+    image_bytes = jpg.tobytes()
+
+    return Response(image_bytes, mimetype="image/jpeg")
 
 ### SCHEDULER ###
 scheduler = BackgroundScheduler()
