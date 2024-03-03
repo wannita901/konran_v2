@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, render_template, send_from_directory, send_file, Response
 from database import *
 from datetime import datetime, timedelta
 import base64
@@ -165,6 +165,18 @@ def detect_image():
 
     process_found_items(found_items)
     return ""
+
+@app.route("/get_image", methods=["POST", "GET"])
+def get_image():
+    # return render_template('./data/output_images/get_image.html')
+    image = cv2.imread("data/output_images/detected_fridge.jpg")
+    ret, jpg = cv2.imencode('.jpg', image)
+
+    image_bytes = jpg.tobytes()
+
+    return Response(image_bytes, mimetype="image/jpeg")
+    #return send_file('data/output_images/detected_fridge.jpg')
+
 
 
 @app.route("/test")

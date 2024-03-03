@@ -19,19 +19,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
-// not sure if will ues
-import Divider from '@mui/material/Divider';
-
 // temporary
-import Garfield from './assets/placeholder.png';
 import FridgeImage from './assets/fridge.png';
 
-
-function PlaceHolderIcon() {
-  return (
-    <Avatar alt = "Garfield" src = { Garfield } />
-  )
-}
 
 // Template Styles
 const Item = styled(Paper)(({ theme }) => ({
@@ -74,7 +64,7 @@ export default function App() {
   let FoodList : { string: FoodItem[] }
   
   useEffect(() => {
-    fetch("http://127.0.0.1:5000/get_user_items").then(
+    fetch("http://ec2-13-236-116-118.ap-southeast-2.compute.amazonaws.com:5000/get_user_items").then(
       res => res.json()
     ).then(
       food => {
@@ -98,6 +88,21 @@ export default function App() {
     })  
   }
 
+  function getImage() {
+    // let img = document.getElementById('image');
+    // img.setAttribute('src', "https://fastly.picsum.photos/id/237/200/300.jpg?hmac=TmmQSbShHz9CdQm0NkEjx1Dyh_Y984R9LpNrpvH2D_U")
+    
+    // let queryImage = "http://127.0.0.1:5000/get_image"
+    // let img = document.getElementById('image');
+    // img?.setAttribute('src', queryImage)
+    return (
+      <img
+      src = { "https://fastly.picsum.photos/id/314/200/300.jpg?hmac=JrR8RW6cKgMfQOxlavDFHrFShwcnB_nuYpi1FWAzsgU" }
+      style = {{ maxWidth: "100%" }}
+      />
+    )
+  }
+
 
   return (
     <React.Fragment>
@@ -107,10 +112,11 @@ export default function App() {
         </Container> */}
         <Container maxWidth="sm">
           <Box component="section">
-            <img 
+            {/* <img 
               src= { FridgeImage }
               style = {{ maxWidth: "100%" }}
-            />
+            /> */}
+            { getImage() }
           </Box>
           <TableContainer component={Paper}>
             <Table sx={{ maxWidth: "100%"}} aria-label="List of Food">
