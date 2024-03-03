@@ -15,7 +15,7 @@ def capture_and_send_image():
     image_data = base64.b64encode(img_encoded)
 
     # Send image data to backend
-    url = 'http://ec2-13-236-116-118.ap-southeast-2.compute.amazonaws.com:5000/detect_image'  # Replace with the actual backend server IP address
+    url = 'http://ec2-3-106-231-109.ap-southeast-2.compute.amazonaws.com:5000/detect_image'  # Backend server IP address
     payload = {'image': image_data.decode('utf-8')}
     headers = {'Content-Type': 'application/json'}
     response = requests.post(url, json=payload, headers=headers)
@@ -28,6 +28,7 @@ def capture_and_send_image():
 
     # Release the webcam
     cap.release()
+    return
 
-# Capture and send image when the script is executed
+# test Capture and send image when the script is executed
 capture_and_send_image()
